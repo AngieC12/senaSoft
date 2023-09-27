@@ -22,7 +22,7 @@ municipio.options("*", cors());
 municipio.get("/municipios", async (req, res) => {
   try {
     await conex.query(
-      "SELECT idMunicipios, nombreMunicipio FROM municipios",
+      "SELECT idMunicipios, nombreMunicipio, departamento FROM municipios",
       (error, respuesta) => {
         console.log(respuesta);
         res.send(respuesta);
@@ -38,7 +38,7 @@ municipio.get("/municipios/:idMunicipios", async (req, res) => {
   let id = req.params.id;
   try {
     conex.query(
-      "SELECT idMunicipios, nombreMunicipio FROM municipios where idMunicipios = ?",
+      "SELECT idMunicipios, nombreMunicipio, departamento  FROM municipios where idMunicipios = ?",
       id,
       (error, respuesta) => {
         console.log(respuesta);
@@ -56,6 +56,7 @@ municipio.post("/municipios/agregar", async (req, res) => {
     let data = {
       idMunicipios: req.body.idMunicipios,
       nombreMunicipio: req.body.nombreMunicipio,
+      departamento: req.body.departamento,
     };
 
     let consulta = await conex.query(
@@ -89,9 +90,10 @@ municipio.put("/municipios", async (req, res) => {
     let data = {
       //idservicios : req.body.idservicios,
       nombreMunicipio: req.body.nombreMunicipio,
+      departamento: req.body.departamento,
     };
     conex.query(
-      "UPDATE municipios SET ? where id = ?",
+      "UPDATE municipios SET ? where idMunicipios = ?",
       [data],
       (error, respuesta) => {
         //console.log(respuesta);
