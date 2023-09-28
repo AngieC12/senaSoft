@@ -32,7 +32,7 @@ validacionCorreos.post("/send-verification-email", (req, res) => {
   unverifiedEmails[token] = email;
 
   // Construye el enlace de verificación
-  const verificationLink = `http://localhost:3000/verify-email/${token}`;
+  const verificationLink = `http://localhost:4000/verify-email/${token}`;
 
   // Configura el correo electrónico
   const mailOptions = {
@@ -73,7 +73,7 @@ validacionCorreos.get("/verify-email/:token", (req, res) => {
 
 // Inicia el servidor en el puerto 3000
 validacionCorreos.listen(4000, () => {
-  console.log("Servidor en ejecución en http://localhost:3000");
+  console.log("Servidor en ejecución en http://localhost:4000");
 });
 
 module.exports = validacionCorreos;

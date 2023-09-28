@@ -1,6 +1,6 @@
 import { Loader } from "@googlemaps/js-api-loader";
 const loader = new Loader({
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyDx56Gn5jg4SiGiShn7aUsPCZRoyKju-p0",
   version: "weekly",
   ...additionalOptions,
 });
@@ -113,5 +113,3 @@ function initMap() {
 }
 
 window.initMap = initMap;
-
-module.exports = location;
