@@ -83,16 +83,18 @@ servicio.post("/servicios/agregar", async (req, res) => {
     });
   }
 });
-servicio.put("/servicios", async (req, res) => {
+//actualizar
+servicio.put("/servicios/:idservicios", async (req, res) => {
   try {
+    let idservicios = req.params.idservicios;
     let data = {
       //idservicios : req.body.idservicios,
       nombreServicio: req.body.nombreServicio,
       descripcion: req.body.descripcion,
     };
     conex.query(
-      "UPDATE servicios SET ? where id = ?",
-      [data],
+      "UPDATE servicios SET ? where idservicios = ?",
+      [data, idservicios],
       (error, respuesta) => {
         //console.log(respuesta);
         res.send(" Actualizacion Exitosa!");

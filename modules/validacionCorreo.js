@@ -14,8 +14,8 @@ const transporter = nodemailer.createTransport(
   smtpTransport({
     service: "Gmail", // Cambia esto según tu proveedor de correo
     auth: {
-      usuario: "tu_correo@gmail.com",
-      contrasena: "tu_contraseña",
+      usuario: "manzanadelcuidado@gmail.com",
+      contrasena: "cuidado",
     },
   })
 );

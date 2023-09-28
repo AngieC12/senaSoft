@@ -84,15 +84,16 @@ asistencia.post("/asistencia/agregar", async (req, res) => {
 });
 
 //editar / actualizar la asistencia
-asistencia.put("/asistencia", async (req, res) => {
+asistencia.put("/asistencia/:idAsistencia", async (req, res) => {
   try {
+    let idAsistencia = req.params.idAsistencia;
     let data = {
       //idservicios : req.body.idservicios,
       FechaHoraAsistencia: req.body.FechaHoraAsistencia,
     };
     conex.query(
       "UPDATE asistencia SET ? where idAsistencia = ?",
-      [data],
+      [data, idAsistencia],
       (error, respuesta) => {
         //console.log(respuesta);
         res.send(" Actualizacion Exitosa!");

@@ -10,6 +10,7 @@ app.use("/", require("./modules/categorias")); //redirigimso al modulo categoria
 app.use("/", require("./modules/asistencias")); //redirigimos al modulo asistencia
 app.use("/", require("./modules/manzanas")); //redirigimos al modulo manzanas
 app.use("/", require("./modules/establecimientos")); //redirigimos al modulo establecimientos
+app.use("/", require("./modules/recuperarContra"));
 //app.use("/", require("./modules/localizacion"));
 app.use("/", require("./modules/validacionCorreo"));
 //app.use("/", require("./modules/recuperacionContrasena"));

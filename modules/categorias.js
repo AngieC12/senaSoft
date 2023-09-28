@@ -5,7 +5,7 @@ const cors = require("cors"); // para evitar restricciones entre llamadas de sit
 const categoria = express.Router(); // trae el metodo router de express para hacer los endpoint  http://www.misitio.com/api/clients
 const conex = require("./bddatos");
 const bcrypt = require("bcryptjs");
-const multer = require("multer");
+//const multer = require("multer");
 const secret = process.env.secret;
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util"); //la trae por defecto node js me permite usar async/await opcion a fetch
@@ -84,15 +84,16 @@ categoria.post("/categorias/agregar", async (req, res) => {
 });
 
 //editar / actualizar la categoria
-categoria.put("/categorias", async (req, res) => {
+categoria.put("/categorias/:idCategoria", async (req, res) => {
   try {
+    let idCategoria = req.params.idCategoria;
     let data = {
       //idservicios : req.body.idservicios,
       nombreCategoria: req.body.nombreCategoria,
     };
     conex.query(
       "UPDATE categorias SET ? where id = ?",
-      [data],
+      [data, idCategoria],
       (error, respuesta) => {
         //console.log(respuesta);
         res.send(" Actualizacion Exitosa!");

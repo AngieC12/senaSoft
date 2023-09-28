@@ -1,4 +1,4 @@
-/* import { Loader } from "@googlemaps/js-api-loader";
+import { Loader } from "@googlemaps/js-api-loader";
 const loader = new Loader({
   apiKey: "YOUR_API_KEY",
   version: "weekly",
@@ -13,11 +13,11 @@ loader.load().then(async () => {
     zoom: 8,
   });
 });
- */
+
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-/* let map;
+//<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+let map;
 let service;
 let infowindow;
 
@@ -61,7 +61,7 @@ function createMarker(place) {
   });
 }
 
-window.initMap = initMap; */
+window.initMap = initMap;
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">

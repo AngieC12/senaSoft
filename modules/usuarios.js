@@ -5,7 +5,7 @@ const cors = require("cors"); // para evitar restricciones entre llamadas de sit
 const mujeres = express.Router(); // trae el metodo router de express para hacer los endpoint  http://www.misitio.com/api/clients
 const conex = require("./bddatos");
 const bcrypt = require("bcryptjs");
-const multer = require("multer");
+//const multer = require("multer");
 const secret = process.env.secret;
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util"); //la trae por defecto node js me permite usar async/await opcion a fetch
@@ -22,7 +22,7 @@ mujeres.options("*", cors());
 mujeres.get("/mujeres", async (req, res) => {
   try {
     await conex.query(
-      "SELECT idmujeres,tipoDocumentol,nombreUno,nombreDos, apellidoUno, apellidoDos,telefonoMujer,correo,ciudad,direccionMujer,ocupacion,usuario,contrasena,foto FROM mujeres",
+      "SELECT idmujeres,tipoDocumentol,nombreUno,nombreDos, apellidoUno, apellidoDos,telefonoMujer,correo,ciudad,direccionMujer,ocupacion,usuario,contrasena FROM mujeres",
       (error, respuesta) => {
         console.log(respuesta);
         res.send(respuesta);
@@ -39,7 +39,7 @@ mujeres.get("/mujeres/:idmujeres", async (req, res) => {
   let id = req.params.id;
   try {
     conex.query(
-      "SELECT tipoDocumentol,nombreUno,nombreDos, apellidoUno, apellidoDos,telefonoMujer,correo,ciudad,direccionMujer,ocupacion,usuario,contrasena,foto  FROM mujeres where idmujeres = ?",
+      "SELECT tipoDocumentol,nombreUno,nombreDos, apellidoUno, apellidoDos,telefonoMujer,correo,ciudad,direccionMujer,ocupacion,usuario,contrasena  FROM mujeres where idmujeres = ?",
       id,
       (error, respuesta) => {
         console.log(respuesta);
@@ -68,7 +68,6 @@ mujeres.post("/mujeres/crear", async (req, res) => {
       ocupacion: req.body.ocupacion,
       usuario: req.body.usuario,
       contrasena: bcrypt.hashSync(req.body.contrasena, 7),
-      foto: req.body.foto,
     };
 
     let consulta = await conex.query(
@@ -147,9 +146,9 @@ mujeres.post("/mujeres/login", async (req, res) => {
   }
 });
 //editar
-mujeres.put("/mujeres/actualizar", (req, res) => {
+mujeres.put("/mujeres/:idmujeres", (req, res) => {
+  let idmujeres = req.params.idmujeres;
   let datos = {
-    idmujeres: req.idmujeres,
     tipoDocumentol: req.body.tipoDocumentol,
     nombreUno: req.body.nombreUno,
     nombreDos: req.body.nombreDos,
@@ -162,7 +161,6 @@ mujeres.put("/mujeres/actualizar", (req, res) => {
     ocupacion: req.body.ocupacion,
     usuario: req.body.usuario,
     contrasena: bcrypt.hashSync(req.body.contrasena, 7),
-    foto: req.body.foto,
   };
   conex.query("UPDATE mujeres SET  ? where idmujeres = ?", [datos, idmujeres]),
     (error, respuesta) => {
@@ -220,7 +218,6 @@ mujeres.delete("/mujeres/:idmujeres", (req, res) => {
     ocupacion: req.body.ocupacion,
     usuario: req.body.usuario,
     contrasena: bcrypt.hashSync(req.body.contrasena, 7),
-    foto: req.body.foto,
   };
   conex.query("DELETE FROM mujeres where idmujeres = ?", datos, idmujeres),
     (error, respuesta) => {
@@ -232,64 +229,5 @@ mujeres.delete("/mujeres/:idmujeres", (req, res) => {
       }
     };
 });
-//subida de la imagen
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./images/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
 
-const uploads = multer({ storage });
-
-mujeres.post(
-  "/mujeres/images/:idmujeres",
-  uploads.single("file0"),
-  async (req, res) => {
-    try {
-      // id de perfil
-      let id = req.params.id;
-      //cargar nombre del archivo
-      let imagenNueva = uploads.filename;
-      let imagen = req.file.originalname;
-      console.log(imagenNueva, imagen);
-      //sacar extension de archivo
-      const imagenExtension = imagen.split(".");
-      const extension = imagenExtension[1];
-      if (extension != "png" && extension != "jpeg" && extension != "jpg") {
-        res.status(505).json({
-          mensaje: "error",
-          respuesta: error,
-        });
-      } else {
-        let consulta = await conex.query(
-          "UPDATE  mujeres SET foto = ? where idmujeres = ?",
-          [imagen, id],
-          (error, respuesta) => {
-            if (error) {
-              res.status(505).json({
-                mensaje: "error",
-                respuesta: error,
-              });
-            } else {
-              res.status(200).json({
-                mensaje: "OK",
-                respuesta: respuesta,
-              });
-            }
-          }
-        );
-      }
-    } catch (error) {
-      res.status(404).json({
-        code: error.code,
-        mensaje: error.message,
-      });
-    }
-  }
-);
-
-// fin de la subida de la imagen
 module.exports = mujeres;

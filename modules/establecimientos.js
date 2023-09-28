@@ -89,10 +89,10 @@ establecimiento.post("/establecimientos/agregar", async (req, res) => {
 });
 
 //editar / actualizar el establecimiento
-establecimiento.put("/establecimientos", async (req, res) => {
+establecimiento.put("/establecimientos/idestablecimiento", async (req, res) => {
   try {
+    let idmujeres = req.params.idmujeres;
     let data = {
-      idestablecimiento: req.body.idestablecimiento,
       nombreEstablecimiento: req.body.nombreEstablecimiento,
       responsableEstablecimiento: req.body.responsableEstablecimiento,
       direccionEstablecimiento: req.body.direccionEstablecimiento,

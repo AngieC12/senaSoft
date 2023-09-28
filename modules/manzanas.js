@@ -86,18 +86,19 @@ manzana.post("/tblmanzana/agregar", async (req, res) => {
 });
 
 //editar / actualizar la manzana
-manzana.put("/tblmanzana", async (req, res) => {
+manzana.put("/tblmanzana/:idManzana", async (req, res) => {
   try {
+    let idManzana = req.params.idManzana;
     let data = {
       //idservicios : req.body.idservicios,
-      idManzana: req.body.idManzana,
+
       nombreManzana: req.body.nombreManzana,
       localidadManzana: req.body.localidadManzana,
       direccionManzana: req.body.direccionManzana,
     };
     conex.query(
       "UPDATE tblmanzana SET ? where idManzana = ?",
-      [data],
+      [data, idManzana],
       (error, respuesta) => {
         //console.log(respuesta);
         res.send(" Actualizacion Exitosa!");

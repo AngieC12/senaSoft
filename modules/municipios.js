@@ -5,7 +5,7 @@ const cors = require("cors"); // para evitar restricciones entre llamadas de sit
 const municipio = express.Router(); // trae el metodo router de express para hacer los endpoint  http://www.misitio.com/api/clients
 const conex = require("./bddatos");
 const bcrypt = require("bcryptjs");
-const multer = require("multer");
+//const multer = require("multer");
 const secret = process.env.secret;
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util"); //la trae por defecto node js me permite usar async/await opcion a fetch
@@ -87,6 +87,7 @@ municipio.post("/municipios/agregar", async (req, res) => {
 //editar  actualizar el municipio
 municipio.put("/municipios", async (req, res) => {
   try {
+    let idMunicipios = req.params.idMunicipios;
     let data = {
       //idservicios : req.body.idservicios,
       nombreMunicipio: req.body.nombreMunicipio,
@@ -94,7 +95,7 @@ municipio.put("/municipios", async (req, res) => {
     };
     conex.query(
       "UPDATE municipios SET ? where idMunicipios = ?",
-      [data],
+      [data, idMunicipios],
       (error, respuesta) => {
         //console.log(respuesta);
         res.send(" Actualizacion Exitosa!");
